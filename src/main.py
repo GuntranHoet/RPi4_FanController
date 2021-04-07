@@ -1,4 +1,3 @@
-import sys
 import time
 import RPi.GPIO as GPIO
 
@@ -8,27 +7,31 @@ import RPi.GPIO as GPIO
 #                                                                    #
 ######################################################################
 
-# GPIO.BOARD -- Board numbering scheme. The pin numbers follow the pin numbers on header P1.
-# GPIO.BCM -- Broadcom chip-specific pin numbers. These pin numbers follow the lower-level
-#             numbering system defined by the Raspberry Pi's Broadcom-chip brain.
+# GPIO.BOARD : index of the pin found in schemes (1-40).
+# GPIO.BCM : numbers in the name of the pin (GPIO 1,5,17,..)
 GPIO.setmode(GPIO.BOARD)
 
-# pin 3  : GPIO 02 (SDA)
 # pin 11 : GPIO 17
-PIN = 3
-print("Using pin" + str(PIN))
+PIN = 11
+print("Using pin #" + str(PIN))
 
 # input or output: GPIO.IN or GPIO.OUT
-GPIO.setup(PIN, GPIO.OUT)
-
 # no power = 0 / GPIO.LOW / False
 # power = 1 / GPIO.HIGH / True
-GPIO.output(PIN, 1)
+GPIO.setup(PIN, GPIO.OUT, initial=GPIO.LOW)
 
 while True:
-    GPIO.output(PIN, 1)
-    time.sleep(3)
-    GPIO.output(PIN, 0)
-    time.sleep(3)
+    print("pin: ON")
+    GPIO.output(PIN, GPIO.HIGH)
+    time.sleep(8)
+    print("pin: OFF")
+    GPIO.output(PIN, GPIO.LOW)
+    time.sleep(2)
+
+# cleans up the setup pins and marks them as unused
+# this prevents warnings when turning it off and on again
+# however, this will not be reached so far as the test code
+# is forever stuck in the while-loop.
+GPIO.cleanup()
 
 print("### program has ended ###")
