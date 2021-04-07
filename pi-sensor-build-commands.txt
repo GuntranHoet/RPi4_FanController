@@ -1,0 +1,10 @@
+
+# build locally from source code
+
+$ cd /usr/src/app/RPi4_FanController
+$ sudo docker build -t rpi4_fancontroller .
+$ sudo docker run --privileged -d --name=pi-fan-controller rpi4_fancontroller
+
+# build from repository (docker, not github!)
+
+$ sudo docker run --privileged -d --name=pi=fan-controller gunthehuman/RPi4_FanController:latest
